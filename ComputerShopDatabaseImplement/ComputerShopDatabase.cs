@@ -18,7 +18,7 @@ namespace ComputerShopDatabaseImplement
         public virtual DbSet<Assembly> Assemblies { set; get; }
         public virtual DbSet<AssemblyOrder> AssemblyOrders { set; get; }
         public virtual DbSet<Component> Components { set; get; }
-        public virtual DbSet<ComponentDelivery> ComponentDeliveries { set; get; }
+        public virtual DbSet<DeliveryComponent> DeliveryComponents { set; get; }
         public virtual DbSet<Customer> Customers { set; get; }
         public virtual DbSet<Delivery> Deliveries { set; get; }
         public virtual DbSet<Order> Orders { set; get; }

@@ -16,6 +16,9 @@ namespace ComputerShopDatabaseImplement.Implements
         {
             using var context = new ComputerShopDatabase();
             return context.Deliveries
+            .Include(rec => rec.DeliveryComponents)
+            .ThenInclude(rec => rec.Component)
+            .ToList()
             .Select(CreateModel)
             .ToList();
         }
@@ -27,6 +30,8 @@ namespace ComputerShopDatabaseImplement.Implements
             }
             using var context = new ComputerShopDatabase();
             return context.Deliveries
+            .Include(rec => rec.DeliveryComponents)
+            .ThenInclude(rec => rec.Component)
             .Where(rec => rec.DeliveryName.Contains(model.DeliveryName))
             .Select(CreateModel)
             .ToList();
@@ -48,6 +53,7 @@ namespace ComputerShopDatabaseImplement.Implements
             using var context = new ComputerShopDatabase();
             context.Deliveries.Add(CreateModel(model, new Delivery()));
             context.SaveChanges();
+           
         }
         public void Update(DeliveryBindingModel model)
         {

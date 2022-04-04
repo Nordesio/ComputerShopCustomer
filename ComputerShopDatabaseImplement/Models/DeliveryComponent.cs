@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComputerShopDatabaseImplement.Models
 {
-    public class ComponentDelivery
+    public class DeliveryComponent
     {
         public int Id { get; set; }
         public int ComponentId { get; set; }

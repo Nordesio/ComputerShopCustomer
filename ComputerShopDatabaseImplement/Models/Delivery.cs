@@ -16,7 +16,7 @@ namespace ComputerShopDatabaseImplement.Models
         [ForeignKey("DeliveryId")]
         public virtual List<Receiving> Receivings { get; set; }
         [ForeignKey("DeliveryId")]
-        public virtual List<ComponentDelivery> ComponentDeliveries { get; set; }
+        public virtual List<DeliveryComponent> DeliveryComponents { get; set; }
         public virtual Order Order { get; set; }
     }
 }

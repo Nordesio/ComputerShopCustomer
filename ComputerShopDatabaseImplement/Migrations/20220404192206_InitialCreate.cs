@@ -143,7 +143,7 @@ namespace ComputerShopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComponentDeliveries",
+                name: "DeliveryComponents",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -154,15 +154,15 @@ namespace ComputerShopDatabaseImplement.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComponentDeliveries", x => x.Id);
+                    table.PrimaryKey("PK_DeliveryComponents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ComponentDeliveries_Components_ComponentId",
+                        name: "FK_DeliveryComponents_Components_ComponentId",
                         column: x => x.ComponentId,
                         principalTable: "Components",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ComponentDeliveries_Deliveries_DeliveryId",
+                        name: "FK_DeliveryComponents_Deliveries_DeliveryId",
                         column: x => x.DeliveryId,
                         principalTable: "Deliveries",
                         principalColumn: "Id",
@@ -203,19 +203,19 @@ namespace ComputerShopDatabaseImplement.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComponentDeliveries_ComponentId",
-                table: "ComponentDeliveries",
-                column: "ComponentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ComponentDeliveries_DeliveryId",
-                table: "ComponentDeliveries",
-                column: "DeliveryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Deliveries_OrderId",
                 table: "Deliveries",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeliveryComponents_ComponentId",
+                table: "DeliveryComponents",
+                column: "ComponentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeliveryComponents_DeliveryId",
+                table: "DeliveryComponents",
+                column: "DeliveryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderCustomers_CustomerId",
@@ -239,7 +239,7 @@ namespace ComputerShopDatabaseImplement.Migrations
                 name: "AssemblyOrders");
 
             migrationBuilder.DropTable(
-                name: "ComponentDeliveries");
+                name: "DeliveryComponents");
 
             migrationBuilder.DropTable(
                 name: "OrderCustomers");

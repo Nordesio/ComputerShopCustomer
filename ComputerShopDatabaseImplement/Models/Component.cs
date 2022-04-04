@@ -13,6 +13,6 @@ namespace ComputerShopDatabaseImplement.Models
         [Required]
         public string ComponentName { get; set; }
         [ForeignKey("ComponentId")]
-        public virtual List<ComponentDelivery> ComponentDeliveries { get; set; }
+        public virtual List<DeliveryComponent> ComponentDeliveries { get; set; }
     }
 }

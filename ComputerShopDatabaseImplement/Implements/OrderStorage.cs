@@ -16,6 +16,9 @@ namespace ComputerShopDatabaseImplement.Implements
         {
             using var context = new ComputerShopDatabase();
             return context.Orders
+             .Include(rec => rec.OrderCustomers)
+            .ThenInclude(rec => rec.Customer)
+            .ToList()
             .Select(CreateModel)
             .ToList();
         }
@@ -27,6 +30,8 @@ namespace ComputerShopDatabaseImplement.Implements
             }
             using var context = new ComputerShopDatabase();
             return context.Orders
+             .Include(rec => rec.OrderCustomers)
+            .ThenInclude(rec => rec.Customer)
             .Where(rec => rec.OrderName.Contains(model.OrderName))
             .Select(CreateModel)
             .ToList();

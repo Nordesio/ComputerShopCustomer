@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComputerShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(ComputerShopDatabase))]
-    [Migration("20220404182106_InitialCreate")]
+    [Migration("20220404192206_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,31 +84,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.ToTable("Components");
                 });
 
-            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.ComponentDelivery", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ComponentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DeliveryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComponentId");
-
-                    b.HasIndex("DeliveryId");
-
-                    b.ToTable("ComponentDeliveries");
-                });
-
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -158,6 +133,31 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Deliveries");
+                });
+
+            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.DeliveryComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeliveryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentId");
+
+                    b.HasIndex("DeliveryId");
+
+                    b.ToTable("DeliveryComponents");
                 });
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Order", b =>
@@ -258,25 +258,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.ComponentDelivery", b =>
-                {
-                    b.HasOne("ComputerShopDatabaseImplement.Models.Component", "Component")
-                        .WithMany("ComponentDeliveries")
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComputerShopDatabaseImplement.Models.Delivery", "Delivery")
-                        .WithMany("ComponentDeliveries")
-                        .HasForeignKey("DeliveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Component");
-
-                    b.Navigation("Delivery");
-                });
-
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Delivery", b =>
                 {
                     b.HasOne("ComputerShopDatabaseImplement.Models.Order", "Order")
@@ -286,6 +267,25 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.DeliveryComponent", b =>
+                {
+                    b.HasOne("ComputerShopDatabaseImplement.Models.Component", "Component")
+                        .WithMany("ComponentDeliveries")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComputerShopDatabaseImplement.Models.Delivery", "Delivery")
+                        .WithMany("DeliveryComponents")
+                        .HasForeignKey("DeliveryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+
+                    b.Navigation("Delivery");
                 });
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.OrderCustomer", b =>
@@ -330,7 +330,7 @@ namespace ComputerShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Delivery", b =>
                 {
-                    b.Navigation("ComponentDeliveries");
+                    b.Navigation("DeliveryComponents");
 
                     b.Navigation("Receivings");
                 });
