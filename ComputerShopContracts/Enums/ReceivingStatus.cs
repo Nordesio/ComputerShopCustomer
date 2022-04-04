@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComputerShopContracts.Enums
 {
-    public enum Status
+    public enum ReceivingStatus
     {
         Принят = 0,
         Выполняется = 1,

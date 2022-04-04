@@ -8,5 +8,6 @@ namespace ComputerShopContracts.ViewModels
 {
     public class AssemblyViewModel
     {
+        public int Id { get; set; }
     }
 }

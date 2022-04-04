@@ -9,6 +9,7 @@ namespace ComputerShopContracts.BindingModel
     public class OrderBindingModel
     {
         public int? Id { get; set; }
+        public string OrderName { get; set; }
         public int Price { get; set; }
         /// <summary>
         /// Дата получения

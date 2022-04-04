@@ -10,8 +10,8 @@ namespace ComputerShopContracts.BindingModel
     public class DeliveryBindingModel
     {
         public int? Id { get; set; }
+        public string DeliveryName { get; set; }
         public int OrderId { get; set; }
-        public Status Status { get; set; }
         public DateTime DateCreate { get; set; }
     }
 }

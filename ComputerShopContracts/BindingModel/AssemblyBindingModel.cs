@@ -8,5 +8,7 @@ namespace ComputerShopContracts.BindingModel
 {
     public class AssemblyBindingModel
     {
+        public int? Id { get; set; }
+        public string AssemblyName { get; set; }
     }
 }

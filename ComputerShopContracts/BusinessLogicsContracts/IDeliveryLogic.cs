@@ -10,7 +10,7 @@ namespace ComputerShopContracts.BusinessLogicsContracts
     public interface IDeliveryLogic
     {
         List<DeliveryViewModel> Read(DeliveryBindingModel model);
-        void TakeDeliveryInWork(ChangeDeliveryStatusBindingModel model);
-        void FinishDelivery(ChangeDeliveryStatusBindingModel model);
+        void CreateOrUpdate(DeliveryBindingModel model);
+        void Delete(DeliveryBindingModel model);
     }
 }

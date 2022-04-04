@@ -8,5 +8,6 @@ namespace ComputerShopContracts.ViewModels
 {
     public class DeliveryViewModel
     {
+        public int Id { get; set; }
     }
 }

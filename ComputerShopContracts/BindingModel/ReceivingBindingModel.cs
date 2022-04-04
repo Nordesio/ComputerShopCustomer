@@ -10,7 +10,8 @@ namespace ComputerShopContracts.BindingModel
     {
         public int? Id { get; set; }
         public int? DeliveryId { get; set; }
-        public Status Status { get; set; }
+        public decimal Price { get; set; }
+        public ReceivingStatus Status { get; set; }
         public DateTime DateCreate { get; set; }
 /// <summary>
 /// Дата отправки

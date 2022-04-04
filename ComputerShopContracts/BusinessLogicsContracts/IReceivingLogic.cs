@@ -10,6 +10,7 @@ namespace ComputerShopContracts.BusinessLogicsContracts
     public interface IReceivingLogic
     {
         List<ReceivingViewModel> Read(ReceivingBindingModel model);
+        void CreateReceiving(CreateReceivingBindingModel model);
         void TakeReceivingInWork(ChangeReceivingStatusBindingModel model);
         void FinishReceiving(ChangeReceivingStatusBindingModel model);
     }
