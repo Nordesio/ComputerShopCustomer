@@ -16,5 +16,6 @@ namespace ComputerShopContracts.BindingModel
         /// </summary>
         public DateTime DateReceipt { get; set; }
         public DateTime DateCreate { get; set; }
+        public Dictionary<int, (string, int)> OrderCustomers { get; set; }
     }
 }

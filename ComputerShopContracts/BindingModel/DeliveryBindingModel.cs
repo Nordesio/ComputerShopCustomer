@@ -13,5 +13,6 @@ namespace ComputerShopContracts.BindingModel
         public string DeliveryName { get; set; }
         public int OrderId { get; set; }
         public DateTime DateCreate { get; set; }
+        public Dictionary<int, (string, int)> DeliveryComponents { get; set; }
     }
 }

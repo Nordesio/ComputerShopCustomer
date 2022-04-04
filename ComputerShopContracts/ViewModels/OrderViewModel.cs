@@ -17,5 +17,6 @@ namespace ComputerShopContracts.ViewModels
         public DateTime DateReceipt { get; set; }
         [DisplayName("Дата создания")]
         public DateTime DateCreate { get; set; }
+        public Dictionary<int, (string, int)> OrderCustomers { get; set; }
     }
 }
