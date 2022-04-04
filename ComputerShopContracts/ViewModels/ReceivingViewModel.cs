@@ -8,7 +8,7 @@ namespace ComputerShopContracts.ViewModels
 {
     public class ReceivingViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int DeliveryId { get; set; }
         [DisplayName("Статус")]
         public string Status { get; set; }

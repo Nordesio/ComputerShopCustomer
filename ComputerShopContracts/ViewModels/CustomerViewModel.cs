@@ -10,7 +10,9 @@ namespace ComputerShopContracts.ViewModels
     public class CustomerViewModel
     {
         public int Id { get; set; }
-        [DisplayName("Логин клиента")]
+        [DisplayName("Имя заказчика")]
+        public string Name { get; set; }
+        [DisplayName("Логин заказчика")]
         public string Login { get; set; }
         [DisplayName("Пароль")]
         public string Password { get; set; }

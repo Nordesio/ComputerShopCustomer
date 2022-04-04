@@ -10,6 +10,9 @@ namespace ComputerShopDatabaseImplement.Models
     public class Assembly
     {
         public int Id { get; set; }
+        [Required]
+        public string AssemblyName { get; set; }
+        public int Price { get; set; }
         public int AssemblyId { get; set; }
         [ForeignKey("AssemblyId")]
         public virtual List<AssemblyOrder> AssemblyOrders { get; set; }

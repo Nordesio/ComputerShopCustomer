@@ -10,5 +10,7 @@ namespace ComputerShopContracts.BindingModel
     {
         public int? Id { get; set; }
         public string AssemblyName { get; set; }
+        public int Price { get; set; }
+        public Dictionary<int, (string, int)> AssemblyOrders { get; set; }
     }
 }
