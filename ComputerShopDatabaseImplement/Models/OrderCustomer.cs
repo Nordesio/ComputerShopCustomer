@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 namespace ComputerShopDatabaseImplement.Models
 {
-    public class Customer
+    public class OrderCustomer
     {
         public int Id { get; set; }
+        public int OrderId { get; set; }
+        public int CustomerId { get; set; }
         [Required]
-        public string Login { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [Required]
-        public string Email { get; set; }
+        public int Count { get; set; }
+        public virtual Order Order { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }
