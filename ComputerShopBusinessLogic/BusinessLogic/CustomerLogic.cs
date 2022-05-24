@@ -24,24 +24,24 @@ namespace ComputerShopBusinessLogic.BusinessLogic
             {
                 return _customerStorage.GetFullList();
             }
-            if (model.Id.HasValue)
+            if (model.CustomerLogin != null)
             {
                 return new List<CustomerViewModel> { _customerStorage.GetElement(model) };
             }
             return _customerStorage.GetFilteredList(model);
         }
 
-        public void CreateOrUpdate(CustomerBindingModel model)
+        public void CreateOrUpdate(CustomerBindingModel model, bool update = false)
         {
             var element = _customerStorage.GetElement(new CustomerBindingModel
             {
-                Email = model.Email
+                Name = model.Name,
             });
-            if (element != null && element.Id != model.Id)
+            if (element != null && element.Login != model.CustomerLogin)
             {
                 throw new Exception("Уже есть клиент с такой почтой");
             }
-            if (model.Id.HasValue)
+            if (update)
             {
                 _customerStorage.Update(model);
             }
@@ -52,7 +52,7 @@ namespace ComputerShopBusinessLogic.BusinessLogic
         }
         public void Delete(CustomerBindingModel model)
         {
-            var element = _customerStorage.GetElement(new CustomerBindingModel { Id = model.Id });
+            var element = _customerStorage.GetElement(new CustomerBindingModel { CustomerLogin = model.CustomerLogin });
             if (element == null)
             {
                 throw new Exception("Заказчик не найден");

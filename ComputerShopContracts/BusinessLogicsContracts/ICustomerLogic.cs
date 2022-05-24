@@ -10,7 +10,7 @@ namespace ComputerShopContracts.BusinessLogicsContracts
     public interface ICustomerLogic
     {
         List<CustomerViewModel> Read(CustomerBindingModel model);
-        void CreateOrUpdate(CustomerBindingModel model);
+        void CreateOrUpdate(CustomerBindingModel model, bool update);
         void Delete(CustomerBindingModel model);
     }
 }

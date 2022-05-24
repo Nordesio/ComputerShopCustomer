@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComputerShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(ComputerShopDatabase))]
-    [Migration("20220404195319_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220524203058_Initial_Create")]
+    partial class Initial_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,9 +27,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AssemblyId")
-                        .HasColumnType("int");
 
                     b.Property<string>("AssemblyName")
                         .IsRequired()
@@ -86,28 +83,21 @@ namespace ComputerShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("CustomerLogin")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerLogin");
 
                     b.ToTable("Customers");
                 });
@@ -167,6 +157,9 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CustomerLogin")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DateCreate")
                         .HasColumnType("datetime2");
 
@@ -182,32 +175,9 @@ namespace ComputerShopDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerLogin");
+
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.OrderCustomer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderCustomers");
                 });
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Receiving", b =>
@@ -288,23 +258,13 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.Navigation("Delivery");
                 });
 
-            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.OrderCustomer", b =>
+            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("ComputerShopDatabaseImplement.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComputerShopDatabaseImplement.Models.Order", "Order")
-                        .WithMany("OrderCustomers")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Order")
+                        .HasForeignKey("CustomerLogin");
 
                     b.Navigation("Customer");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Receiving", b =>
@@ -328,6 +288,11 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.Navigation("ComponentDeliveries");
                 });
 
+            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Customer", b =>
+                {
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Delivery", b =>
                 {
                     b.Navigation("DeliveryComponents");
@@ -340,8 +305,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.Navigation("AssemblyOrders");
 
                     b.Navigation("Deliveries");
-
-                    b.Navigation("OrderCustomers");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,11 +11,12 @@ namespace ComputerShopContracts.BindingModel
         public int? Id { get; set; }
         public string OrderName { get; set; }
         public int Price { get; set; }
+        public string CustomerLogin { get; set; }
         /// <summary>
         /// Дата получения
         /// </summary>
         public DateTime DateReceipt { get; set; }
         public DateTime DateCreate { get; set; }
-        public Dictionary<int, (string, int)> OrderCustomers { get; set; }
+        public Dictionary<int, int> AssemblyOrders { get; set; }
     }
 }

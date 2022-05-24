@@ -16,8 +16,9 @@ namespace ComputerShopDatabaseImplement.Implements
         {
             using var context = new ComputerShopDatabase();
             return context.Orders
-            .Include(rec => rec.OrderCustomers)
-            .ThenInclude(rec => rec.Order)
+            .Include(rec => rec.Customer)
+             .Include(rec => rec.AssemblyOrders)
+                .ThenInclude(rec => rec.Assembly)
             .ToList()
             .Select(CreateModel)
             .ToList();
@@ -30,8 +31,9 @@ namespace ComputerShopDatabaseImplement.Implements
             }
             using var context = new ComputerShopDatabase();
             return context.Orders
-            .Include(rec => rec.OrderCustomers)
-            .ThenInclude(rec => rec.Order)
+           .Include(rec => rec.Customer)
+             .Include(rec => rec.AssemblyOrders)
+                .ThenInclude(rec => rec.Assembly)
             .Where(rec => rec.OrderName.Contains(model.OrderName))
             .ToList()
             .Select(CreateModel)
@@ -45,8 +47,6 @@ namespace ComputerShopDatabaseImplement.Implements
             }
             using var context = new ComputerShopDatabase();
             var order = context.Orders
-            .Include(rec => rec.OrderCustomers)
-            .ThenInclude(rec => rec.Order)
             .FirstOrDefault(rec => rec.OrderName == model.OrderName || rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
@@ -113,28 +113,26 @@ namespace ComputerShopDatabaseImplement.Implements
             order.Price = model.Price;
             order.DateCreate = model.DateCreate;
             order.DateReceipt = model.DateReceipt;
+            order.CustomerLogin = model.CustomerLogin;
+            if (order.Id == 0)
+            {
+                context.Orders.Add(order);
+                context.SaveChanges();
+            }
             if (model.Id.HasValue)
             {
-                var orderComponents = context.OrderCustomers.Where(rec => rec.OrderId == model.Id.Value).ToList();
+                var assemblyOrders = context.AssemblyOrders.Where(rec => rec.OrderId == model.Id.Value).ToList();
 
-                context.OrderCustomers.RemoveRange(orderComponents.Where(rec => !model.OrderCustomers.ContainsKey(rec.OrderId)).ToList());
-                context.SaveChanges();
-
-                foreach (var updateComponent in orderComponents)
-                {
-                    updateComponent.Count = model.OrderCustomers[updateComponent.OrderId].Item2;
-                    model.OrderCustomers.Remove(updateComponent.OrderId);
-                }
+                context.AssemblyOrders.RemoveRange(assemblyOrders.Where(rec => !model.AssemblyOrders.ContainsKey(rec.OrderId)).ToList());
                 context.SaveChanges();
             }
 
-            foreach (var fc in model.OrderCustomers)
+            foreach (var fc in model.AssemblyOrders)
             {
-                context.OrderCustomers.Add(new OrderCustomer
+                context.AssemblyOrders.Add(new AssemblyOrder
                 {
                     OrderId = order.Id,
-                    CustomerId = fc.Key,
-                    Count = fc.Value.Item2
+                    AssemblyId = fc.Key
                 });
                 context.SaveChanges();
             }
@@ -146,9 +144,11 @@ namespace ComputerShopDatabaseImplement.Implements
             {
                 Id = order.Id,
                 Price = order.Price,
+                CustomerLogin = order.CustomerLogin,
                 OrderName = order.OrderName,
                 DateCreate = order.DateCreate,
-                DateReceipt = order.DateReceipt
+                DateReceipt = order.DateReceipt,
+                AssemblyOrders = order.AssemblyOrders.ToDictionary(recPP => recPP.OrderId, recPP => (recPP.AssemblyId))
             };
         }
     }

@@ -1,0 +1,19 @@
+﻿<Window x:Class="ComputerShopView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ComputerShopView"
+        mc:Ignorable="d"
+Title="Компьютерный магазин 'Ты ж программист'" Height="450" Width="500">
+    <Grid>
+        <Menu Grid.ColumnSpan="6">
+            <MenuItem x:Name="MenuItemOrder" Header="Заказы" Height="34" Width="86" Click="MenuItemOrder_Click"/>
+            <MenuItem x:Name="MenuItemDelivery" Header="Поставки" Width="101" Click="MenuItemDelivery_Click"/>
+            <MenuItem x:Name="MenuItemReceiving" Header="Получение техники" Height="58" Width="122" Click="MenuItemReceiving_Click"/>
+            <MenuItem x:Name="MenuItemList" Header="Получение списка" Height="62" Width="100" Click="MenuItemList_Click"/>
+            <MenuItem x:Name="MenuItemReport" Header="Отчёт" Height="62" Width="40" Click="MenuItemReport_Click"/>
+        </Menu>
+
+    </Grid>
+</Window>

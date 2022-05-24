@@ -16,8 +16,13 @@ namespace ComputerShopDatabaseImplement.Implements
         {
             using var context = new ComputerShopDatabase();
             return context.Customers
-            .Select(CreateModel)
-            .ToList();
+            .Select(rec => new CustomerViewModel
+               {
+                   Login = rec.CustomerLogin,
+                   Name = rec.Name,
+                   Email = rec.Email,
+                   Password = rec.Password
+               }).ToList();
         }
         public List<CustomerViewModel> GetFilteredList(CustomerBindingModel model)
         {
@@ -27,9 +32,16 @@ namespace ComputerShopDatabaseImplement.Implements
             }
             using var context = new ComputerShopDatabase();
             return context.Customers
-            .Where(rec => rec.Email.Contains(model.Email))
-            .Select(CreateModel)
-            .ToList();
+                
+                .Include(x => x.Order)
+                .Where(rec => rec.CustomerLogin == model.CustomerLogin)
+                        .Select(rec => new CustomerViewModel
+                        {
+                            Login = rec.CustomerLogin,
+                            Name = rec.Name,
+                            Email = rec.Email,
+                            Password = rec.Password
+                        }).ToList();
         }
         public CustomerViewModel GetElement(CustomerBindingModel model)
         {
@@ -39,9 +51,18 @@ namespace ComputerShopDatabaseImplement.Implements
             }
             using var context = new ComputerShopDatabase();
             var customer = context.Customers
-            .FirstOrDefault(rec => rec.Email == model.Email || rec.Id
-           == model.Id);
-            return customer != null ? CreateModel(customer) : null;
+                .Include(x => x.Order)
+            .FirstOrDefault(rec => rec.Email == model.Email || rec.CustomerLogin
+           == model.CustomerLogin);
+            return customer != null ?
+                new CustomerViewModel
+                {
+                    Login = customer.CustomerLogin,
+                    Name = customer.Name,
+                    Email = customer.Email,
+                    Password = customer.Password,
+                }:
+                null;
         }
         public void Insert(CustomerBindingModel model)
         {
@@ -52,7 +73,7 @@ namespace ComputerShopDatabaseImplement.Implements
         public void Update(CustomerBindingModel model)
         {
             using var context = new ComputerShopDatabase();
-            var element = context.Customers.FirstOrDefault(rec => rec.Id == model.Id);
+            var element = context.Customers.FirstOrDefault(rec => rec.CustomerLogin == model.CustomerLogin);
             if (element == null)
             {
                 throw new Exception("Элемент не найден");
@@ -63,8 +84,8 @@ namespace ComputerShopDatabaseImplement.Implements
         public void Delete(CustomerBindingModel model)
         {
             using var context = new ComputerShopDatabase();
-            Customer element = context.Customers.FirstOrDefault(rec => rec.Id ==
-           model.Id);
+            Customer element = context.Customers.FirstOrDefault(rec => rec.CustomerLogin ==
+           model.CustomerLogin);
             if (element != null)
             {
                 context.Customers.Remove(element);
@@ -78,26 +99,14 @@ namespace ComputerShopDatabaseImplement.Implements
         private static Customer CreateModel(CustomerBindingModel model, Customer
        customer)
         {
-
+            customer.CustomerLogin = model.CustomerLogin;
             customer.Name = model.Name;
-
             customer.Password = model.Password;
-            customer.Login = model.Login;
+           
             customer.Email = model.Email;
 
             return customer;
         }
-        private static CustomerViewModel CreateModel(Customer customer)
-        {
-            return new CustomerViewModel
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Password = customer.Password,
-                Login = customer.Login,
-                Email = customer.Email,
-
-            };
-        }
+     
     }
 }

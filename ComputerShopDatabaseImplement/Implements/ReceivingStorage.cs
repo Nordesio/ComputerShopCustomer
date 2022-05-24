@@ -10,7 +10,7 @@ using ComputerShopDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 namespace ComputerShopDatabaseImplement.Implements
 {
-    public class ReceivingStorage
+    public class ReceivingStorage : IReceivingStorage
     {
         public List<ReceivingViewModel> GetFullList()
         {

@@ -17,7 +17,7 @@ namespace ComputerShopDatabaseImplement.Implements
             using var context = new ComputerShopDatabase();
             return context.Deliveries
             .Include(rec => rec.DeliveryComponents)
-            .ThenInclude(rec => rec.Delivery)
+            .ThenInclude(rec => rec.Component)
             .ToList()
             .Select(CreateModel)
             .ToList();
@@ -31,7 +31,7 @@ namespace ComputerShopDatabaseImplement.Implements
             using var context = new ComputerShopDatabase();
             return context.Deliveries
             .Include(rec => rec.DeliveryComponents)
-            .ThenInclude(rec => rec.Delivery)
+            .ThenInclude(rec => rec.Component)
             .Where(rec => rec.DeliveryName.Contains(model.DeliveryName))
             .ToList()
             .Select(CreateModel)
@@ -46,7 +46,7 @@ namespace ComputerShopDatabaseImplement.Implements
             using var context = new ComputerShopDatabase();
             var delivery = context.Deliveries
             .Include(rec => rec.DeliveryComponents)
-            .ThenInclude(rec => rec.Delivery)
+            .ThenInclude(rec => rec.Component)
             .FirstOrDefault(rec => rec.DeliveryName == model.DeliveryName || rec.Id == model.Id);
             return delivery != null ? CreateModel(delivery) : null;
         }

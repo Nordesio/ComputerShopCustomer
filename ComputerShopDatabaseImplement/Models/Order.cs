@@ -13,6 +13,8 @@ namespace ComputerShopDatabaseImplement.Models
         [Required]
         public string OrderName { get; set; }
         public int Price { get; set; }
+        public string CustomerLogin { get; set; }
+        public virtual Customer Customer { get; set; }
         [Required]
         public DateTime DateReceipt { get; set; }
         [Required]
@@ -21,7 +23,5 @@ namespace ComputerShopDatabaseImplement.Models
         public virtual List<Delivery> Deliveries { get; set; }
         [ForeignKey("OrderId")]
         public virtual List<AssemblyOrder> AssemblyOrders { get; set; }
-        [ForeignKey("OrderId")]
-        public virtual List<OrderCustomer> OrderCustomers { get; set; }
     }
 }

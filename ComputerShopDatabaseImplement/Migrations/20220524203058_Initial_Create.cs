@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComputerShopDatabaseImplement.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial_Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,8 +14,7 @@ namespace ComputerShopDatabaseImplement.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AssemblyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    AssemblyId = table.Column<int>(type: "int", nullable: false)
+                    Price = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,16 +38,14 @@ namespace ComputerShopDatabaseImplement.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerLogin = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.CustomerLogin);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,12 +56,19 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
+                    CustomerLogin = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DateReceipt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_CustomerLogin",
+                        column: x => x.CustomerLogin,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerLogin",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,33 +113,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                     table.PrimaryKey("PK_Deliveries", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Deliveries_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderCustomers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderCustomers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderCustomers_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderCustomers_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -218,14 +195,9 @@ namespace ComputerShopDatabaseImplement.Migrations
                 column: "DeliveryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderCustomers_CustomerId",
-                table: "OrderCustomers",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderCustomers_OrderId",
-                table: "OrderCustomers",
-                column: "OrderId");
+                name: "IX_Orders_CustomerLogin",
+                table: "Orders",
+                column: "CustomerLogin");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Receivings_DeliveryId",
@@ -242,9 +214,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                 name: "DeliveryComponents");
 
             migrationBuilder.DropTable(
-                name: "OrderCustomers");
-
-            migrationBuilder.DropTable(
                 name: "Receivings");
 
             migrationBuilder.DropTable(
@@ -254,13 +223,13 @@ namespace ComputerShopDatabaseImplement.Migrations
                 name: "Components");
 
             migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
                 name: "Deliveries");
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
         }
     }
 }
