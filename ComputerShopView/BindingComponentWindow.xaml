@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComputerShopView"
         mc:Ignorable="d"
-       Title="Привязка дисциплин" Height="500" Width="500" Loaded="BindingComponent_Loaded" Background="Cyan">
+       Title="Привязка компонентов" Height="500" Width="500" Loaded="BindingComponent_Loaded" Background="Cyan">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>

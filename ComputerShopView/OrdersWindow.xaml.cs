@@ -65,8 +65,9 @@ namespace ComputerShopView
 			if (DataGridView.SelectedCells.Count != 0)
 			{
 				var window = Container.Resolve<OrderWindow>();
-				window.Id = ((OrderViewModel)DataGridView.SelectedCells[0].Item).Id;
 				window.Login = login;
+				window.Id = ((OrderViewModel)DataGridView.SelectedCells[0].Item).Id;
+
 				if (window.ShowDialog().Value)
 				{
 					LoadData();

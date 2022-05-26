@@ -7,7 +7,7 @@
          mc:Ignorable="d"
 Title="Компьютерный магазин 'Ты ж программист'" Height="450" Width="760">
     <Grid>
-        <Menu Grid.Row ="0" Grid.ColumnSpan="6" Background="Cyan">
+        <Menu Grid.Row ="0" Grid.ColumnSpan="6">
             <MenuItem  x:Name="MenuItemOrder" Header="Заказы" Height="34" Width="86" Click="MenuItemOrder_Click"/>
             <MenuItem x:Name="MenuItemDelivery" Header="Поставки" Width="101" Click="MenuItemDelivery_Click"/>
             <MenuItem x:Name="MenuItemReceiving" Header="Получение техники" Height="58" Width="122" Click="MenuItemReceiving_Click"/>
