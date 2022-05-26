@@ -47,7 +47,12 @@ namespace ComputerShopBusinessLogic.BusinessLogic
             }
             else
             {
-                _deliveryStorage.Insert(model);
+                _deliveryStorage.Insert(new DeliveryBindingModel
+                {
+                DeliveryName = model.DeliveryName,
+                OrderId = model.OrderId,
+                DateCreate = DateTime.Now,
+            });
             }
         }
         public void Delete(DeliveryBindingModel model)

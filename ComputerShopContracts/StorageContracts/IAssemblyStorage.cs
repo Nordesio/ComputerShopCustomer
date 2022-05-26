@@ -15,5 +15,6 @@ namespace ComputerShopContracts.StoragesContracts
         void Insert(AssemblyBindingModel model);
         void Update(AssemblyBindingModel model);
         void Delete(AssemblyBindingModel model);
+        public void BindingOrder(int orderId, int assemblyId);
     }
 }

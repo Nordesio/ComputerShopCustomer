@@ -13,6 +13,6 @@ namespace ComputerShopContracts.ViewModels
         public string AssemblyName { get; set; }
         [DisplayName("Цена")]
         public int Price { get; set; }
-        public Dictionary<int, (string, int)> AssemblyOrders { get; set; }
+        public Dictionary<int, string> Orders { get; set; }
     }
 }

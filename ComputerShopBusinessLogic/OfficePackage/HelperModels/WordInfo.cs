@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using ComputerShopContracts.ViewModels;
 namespace ComputerShopBusinessLogic.OfficePackage.HelperModels
 {
-    public class WordInfoCustomer
+    public class WordInfo
     {
         public string FileName { get; set; }
         public string Title { get; set; }
-        public List<ReportCustomerOrderViewModel> CustomerOrder { get; set; }
+        public List<ReceivingViewModel> Receivings { get; set; }
     }
 }

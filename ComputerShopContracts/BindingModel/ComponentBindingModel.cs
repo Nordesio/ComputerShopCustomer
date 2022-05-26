@@ -10,6 +10,6 @@ namespace ComputerShopContracts.BindingModel
     {
         public int? Id { get; set; }
         public string ComponentName { get; set; }
-
+        public Dictionary<int, string> Deliveries { get; set; }
     }
 }

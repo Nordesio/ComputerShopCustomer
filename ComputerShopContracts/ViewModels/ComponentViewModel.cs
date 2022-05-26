@@ -11,5 +11,6 @@ namespace ComputerShopContracts.ViewModels
         public int Id { get; set; }
         [DisplayName("Компонент")]
         public string ComponentName { get; set; }
+        public Dictionary<int, string> Deliveries { get; set; }
     }
 }

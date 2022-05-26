@@ -3,6 +3,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Unity;
 using ComputerShopBusinessLogic.BusinessLogic;
+using ComputerShopContracts.BindingModel;
 
 namespace ComputerShopView
 {
@@ -11,7 +12,7 @@ namespace ComputerShopView
         [Dependency]
         public IUnityContainer Container { get; set; }
 
-        public string CustomerLogin { set { login = value; } }
+        public string Login { set { login = value; } }
 
         private string login;
 
@@ -25,35 +26,32 @@ namespace ComputerShopView
         
         private void MenuItemOrder_Click(object sender, RoutedEventArgs e)
         {
-            var form = Container.Resolve<OrderWindow>();
-            //form.CustomerLogin = login;
+            var form = Container.Resolve<OrdersWindow>();
+            form.Login = login;
             form.ShowDialog();
         }
 
         private void MenuItemDelivery_Click(object sender, RoutedEventArgs e)
         {
-            var form = Container.Resolve<DeliveryWindow>();
-            //form.CustomerLogin = login;
+            var form = Container.Resolve<DeliverysWindow>();
+            form.Login = login;
             form.ShowDialog();
         }
         private void MenuItemReceiving_Click(object sender, RoutedEventArgs e)
         {
-            var form = Container.Resolve<ReceivingWindow>();
-            //form.CustomerLogin = login;
+            var form = Container.Resolve<ReceivingsWindow>();
+            form.Login = login;
             form.ShowDialog();
         }
-        private void MenuItemList_Click(object sender, RoutedEventArgs e)
+        private void MenuItemComponent_Click(object sender, RoutedEventArgs e)
         {
-            var form = Container.Resolve<ListWindow>();
-            //form.CustomerLogin = login;
+            var form = Container.Resolve<BindingComponentWindow>();
             form.ShowDialog();
         }
-        private void MenuItemReport_Click(object sender, RoutedEventArgs e)
+        private void MenuItemAssembly_Click(object sender, RoutedEventArgs e)
         {
-            var form = Container.Resolve<ReportWindow>();
-            //form.CustomerLogin = login;
+            var form = Container.Resolve<BindingAssemblyWindow>();
             form.ShowDialog();
         }
-        
     }
 }

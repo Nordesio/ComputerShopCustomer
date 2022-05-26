@@ -59,5 +59,9 @@ namespace ComputerShopBusinessLogic.BusinessLogic
             }
             _assemblyStorage.Delete(model);
         }
+        public void BindingOrder(int assemblyId, int orderId)
+        {
+            _assemblyStorage.BindingOrder(assemblyId, orderId);
+        }
     }
 }

@@ -7,7 +7,6 @@ using ComputerShopContracts.BusinessLogicsContracts;
 using ComputerShopContracts.ViewModels;
 using ComputerShopContracts.BindingModel;
 using ComputerShopContracts.StoragesContracts;
-using ComputerShopContracts.Enums;
 namespace ComputerShopBusinessLogic.BusinessLogic
 {
     public class ReceivingLogic : IReceivingLogic
@@ -30,50 +29,34 @@ namespace ComputerShopBusinessLogic.BusinessLogic
             }
             return _receivingStorage.GetFilteredList(model);
         }
-        public void CreateReceiving(CreateReceivingBindingModel model)
+        public void CreateOrUpdate(ReceivingBindingModel model)
         {
-            _receivingStorage.Insert(new ReceivingBindingModel
+            var element = _receivingStorage.GetElement(new ReceivingBindingModel
             {
-                DeliveryId = model.DeliveryId,
-                Price = model.Price,
-                DateCreate = DateTime.Now,
-                Status = ReceivingStatus.Принят
-
+                Id = model.Id
             });
+            if (element != null && element.Id != model.Id)
+            {
+                throw new Exception("Уже есть поставка");
+            }
+            if (model.Id.HasValue)
+            {
+                _receivingStorage.Update(model);
+            }
+            else
+            {
+                _receivingStorage.Insert(model);
+            }
         }
-        public void TakeReceivingInWork(ChangeReceivingStatusBindingModel model)
+        public void Delete(ReceivingBindingModel model)
         {
-            var receiving = _receivingStorage.GetElement(new ReceivingBindingModel { Id = model.ReceivingId });
-
-            if (receiving == null) throw new Exception("Элемент не найден");
-
-            if (!receiving.Status.Contains(ReceivingStatus.Принят.ToString())) throw new Exception("Не в статусе \"Принят\"");
-            _receivingStorage.Update(new ReceivingBindingModel
+            var element = _receivingStorage.GetElement(new ReceivingBindingModel { Id = model.Id });
+            if (element == null)
             {
-                Id = receiving.Id,
-                DeliveryId = receiving.DeliveryId,
-                Price = receiving.Price,
-                DateCreate = receiving.DateCreate,
-                Status = ReceivingStatus.Выполняется,
-            });
+                throw new Exception("Заказчик не найден");
+            }
+            _receivingStorage.Delete(model);
         }
-        public void FinishReceiving(ChangeReceivingStatusBindingModel model)
-        {
-            var receiving = _receivingStorage.GetElement(new ReceivingBindingModel { Id = model.ReceivingId });
 
-            if (receiving == null) throw new Exception("Элемент не найден");
-
-            if (!receiving.Status.Contains(ReceivingStatus.Принят.ToString())) throw new Exception("Не в статусе \"Выполняется\"");
-
-            _receivingStorage.Update(new ReceivingBindingModel
-            {
-                Id = receiving.Id,
-                DeliveryId = receiving.DeliveryId,
-                Price = receiving.Price,
-                DateCreate = receiving.DateCreate,
-                DateDispatch = receiving.DateDispatch,
-                Status = ReceivingStatus.Готов,
-            });
-        }
     }
 }

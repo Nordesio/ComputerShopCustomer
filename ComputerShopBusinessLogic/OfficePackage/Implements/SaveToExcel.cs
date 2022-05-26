@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ComputerShopBusinessLogic.OfficePackage.Implements
 {
-    public class SaveToExcelCustomer : AbstractSaveToExcelCustomer
+    public class SaveToExcel : AbstractSaveToExcel
 	{
 		private SpreadsheetDocument _spreadsheetDocument;
 		private SharedStringTablePart _shareStringPart;
@@ -193,7 +193,7 @@ namespace ComputerShopBusinessLogic.OfficePackage.Implements
 				_ => 0U,
 			};
 		}
-		protected override void CreateExcel(ExcelInfoCustomer info)
+		protected override void CreateExcel(ExcelInfo info)
 		{
 			_spreadsheetDocument = SpreadsheetDocument.Create(info.FileName, SpreadsheetDocumentType.Workbook);
 
@@ -306,7 +306,7 @@ namespace ComputerShopBusinessLogic.OfficePackage.Implements
 			};
 			mergeCells.Append(mergeCell);
 		}
-		protected override void SaveExcel(ExcelInfoCustomer info)
+		protected override void SaveExcel(ExcelInfo info)
 		{
 			_spreadsheetDocument.WorkbookPart.Workbook.Save();
 			_spreadsheetDocument.Close();

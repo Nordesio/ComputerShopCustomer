@@ -10,14 +10,15 @@ namespace ComputerShopDatabaseImplement.Models
     public class Delivery
     {
         public int Id { get; set; }
+        [Required]
         public string DeliveryName { get; set; }
+        [Required]
         public int OrderId { get; set; }
         public DateTime DateCreate { get; set; }
         [ForeignKey("DeliveryId")]
         public virtual List<Receiving> Receivings { get; set; }
         [ForeignKey("DeliveryId")]
         public virtual List<DeliveryComponent> DeliveryComponents { get; set; }
-        public virtual Order Order { get; set; }
     }
 }
     

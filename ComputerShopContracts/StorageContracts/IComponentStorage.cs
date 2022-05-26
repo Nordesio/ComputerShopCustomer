@@ -15,5 +15,6 @@ namespace ComputerShopContracts.StoragesContracts
         void Insert(ComponentBindingModel model);
         void Update(ComponentBindingModel model);
         void Delete(ComponentBindingModel model);
+        public void BindingDelivery(int compId, int subjectId);
     }
 }

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ComputerShopContracts.BindingModel
 {
-    public class CreateReceivingBindingModel
+    public class ReportBindingModel
     {
-        public int? DeliveryId { get; set; }
-        public int Price { get; set; }
+        public string FileName { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
     }
 }

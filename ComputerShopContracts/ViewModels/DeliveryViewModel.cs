@@ -11,10 +11,11 @@ namespace ComputerShopContracts.ViewModels
         public int Id { get; set; }
         [DisplayName("Поставка")]
         public string DeliveryName { get; set; }
-
+        [DisplayName("Заказ")]
+        public string OrderName { get; set; }
         public int OrderId { get; set; }
         [DisplayName("Дата создания")]
-        public DateTime DateCreate { get; set; }
+        public DateTime DateCreate  { get; set; }
         public Dictionary<int, (string, int)> DeliveryComponents { get; set; }
     }
 }

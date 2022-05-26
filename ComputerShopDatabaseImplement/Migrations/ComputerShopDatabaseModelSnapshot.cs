@@ -111,14 +111,13 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeliveryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Deliveries");
                 });
@@ -158,12 +157,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.Property<string>("CustomerLogin")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("DateCreate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateReceipt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("OrderName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -185,9 +178,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateCreate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("DateDispatch")
                         .HasColumnType("datetime2");
 
@@ -196,9 +186,6 @@ namespace ComputerShopDatabaseImplement.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -226,17 +213,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Delivery", b =>
-                {
-                    b.HasOne("ComputerShopDatabaseImplement.Models.Order", "Order")
-                        .WithMany("Deliveries")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.DeliveryComponent", b =>
                 {
                     b.HasOne("ComputerShopDatabaseImplement.Models.Component", "Component")
@@ -258,22 +234,18 @@ namespace ComputerShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("ComputerShopDatabaseImplement.Models.Customer", "Customer")
+                    b.HasOne("ComputerShopDatabaseImplement.Models.Customer", null)
                         .WithMany("Order")
                         .HasForeignKey("CustomerLogin");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Receiving", b =>
                 {
-                    b.HasOne("ComputerShopDatabaseImplement.Models.Delivery", "Delivery")
+                    b.HasOne("ComputerShopDatabaseImplement.Models.Delivery", null)
                         .WithMany("Receivings")
                         .HasForeignKey("DeliveryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Delivery");
                 });
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Assembly", b =>
@@ -301,8 +273,6 @@ namespace ComputerShopDatabaseImplement.Migrations
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Order", b =>
                 {
                     b.Navigation("AssemblyOrders");
-
-                    b.Navigation("Deliveries");
                 });
 #pragma warning restore 612, 618
         }

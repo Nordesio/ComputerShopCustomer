@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using ComputerShopContracts.BindingModel;
 using ComputerShopContracts.ViewModels;
+
 namespace ComputerShopContracts.BusinessLogicsContracts
 {
-    public interface IReceivingLogic
+    public interface IReportLogic
     {
-        List<ReceivingViewModel> Read(ReceivingBindingModel model);
-        void CreateOrUpdate(ReceivingBindingModel model);
-        void Delete(ReceivingBindingModel model);
+        void SaveReceivingsToWordFile(ReportBindingModel model);
+        void SaveReceivingsToExcelFile(ReportBindingModel model);
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComputerShopView"
         mc:Ignorable="d"
-        Title="Авторизация" Height="199" Width="230" >
+        Title="Авторизация" Height="199" Width="230" Background="Cyan">
     <StackPanel Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Height="128">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel HorizontalAlignment="Stretch">

@@ -68,13 +68,13 @@ HierarchicalLifetimeManager());
 HierarchicalLifetimeManager());
             currentContainer.RegisterType<IReceivingLogic, ReceivingLogic>(new
 HierarchicalLifetimeManager());
-            currentContainer.RegisterType<AbstractSaveToExcelCustomer, SaveToExcelCustomer>(new
+            currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new
             HierarchicalLifetimeManager());
          
-            currentContainer.RegisterType<AbstractSaveToWordCustomer, SaveToWordCustomer>(new
+            currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IReportLogic, ReportLogic>(new HierarchicalLifetimeManager());
 
-           
             return currentContainer;
         }
     }

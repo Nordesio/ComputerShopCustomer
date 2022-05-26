@@ -107,36 +107,33 @@ namespace ComputerShopDatabaseImplement.Implements
                 throw new Exception("Элемент не найден");
             }
         }
-        private static Assembly CreateModel(AssemblyBindingModel model, Assembly assembly, ComputerShopDatabase context)
+        private Assembly CreateModel(AssemblyBindingModel model, Assembly assembly, ComputerShopDatabase context)
         {
             assembly.AssemblyName = model.AssemblyName;
             assembly.Price = model.Price;
+         
+
+           
             if (model.Id.HasValue)
             {
-                var assemblyComponents = context.AssemblyOrders.Where(rec => rec.AssemblyId == model.Id.Value).ToList();
-                
-                context.AssemblyOrders.RemoveRange(assemblyComponents.Where(rec => !model.AssemblyOrders.ContainsKey(rec.OrderId)).ToList());
-                context.SaveChanges();
-              
-                foreach (var updateComponent in assemblyComponents)
-                {
-                    updateComponent.Count = model.AssemblyOrders[updateComponent.OrderId].Item2;
-                    model.AssemblyOrders.Remove(updateComponent.OrderId);
-                }
+                var assemblyOrders = context.AssemblyOrders.Where(rec => rec.Id == model.Id).ToList();
+                context.AssemblyOrders.RemoveRange(assemblyOrders);
                 context.SaveChanges();
             }
            
-            foreach (var fc in model.AssemblyOrders)
-            {
-                context.AssemblyOrders.Add(new AssemblyOrder
-                {
-                    AssemblyId = assembly.Id,
-                    OrderId = fc.Key,
-                    Count = fc.Value.Item2
-                });
-                context.SaveChanges();
-            }
             return assembly;
+        }
+
+        public void BindingOrder(int assemblyId, int orderId)
+        {
+            var context = new ComputerShopDatabase();
+            context.AssemblyOrders.Add(new AssemblyOrder
+            {
+                AssemblyId = assemblyId,
+                OrderId = orderId
+            });
+            context.SaveChanges();
+
         }
         private static AssemblyViewModel CreateModel(Assembly assembly)
         {
@@ -145,8 +142,9 @@ namespace ComputerShopDatabaseImplement.Implements
                 Id = assembly.Id,
                 AssemblyName = assembly.AssemblyName,
                 Price = assembly.Price,
-                AssemblyOrders = assembly.AssemblyOrders
-                .ToDictionary(recFC => recFC.OrderId, recFC => (recFC.Order?.OrderName, recFC.Count))
+                Orders = assembly.AssemblyOrders
+                .ToDictionary(recSS => recSS.OrderId, recSS => recSS.Order.OrderName),
+              
             };
         }
     }

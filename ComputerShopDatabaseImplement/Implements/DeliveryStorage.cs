@@ -16,11 +16,14 @@ namespace ComputerShopDatabaseImplement.Implements
         {
             using var context = new ComputerShopDatabase();
             return context.Deliveries
-            .Include(rec => rec.DeliveryComponents)
-            .ThenInclude(rec => rec.Component)
-            .ToList()
-            .Select(CreateModel)
-            .ToList();
+                            .Select(rec => new DeliveryViewModel
+                            {
+                                Id = rec.Id,
+                                DeliveryName = rec.DeliveryName,
+                                DateCreate = rec.DateCreate,
+                                OrderName = context.Orders.FirstOrDefault(recOrder => rec.OrderId == recOrder.Id).OrderName,
+                                OrderId = rec.OrderId
+                            }).ToList();
         }
         public List<DeliveryViewModel> GetFilteredList(DeliveryBindingModel model)
         {
@@ -32,10 +35,16 @@ namespace ComputerShopDatabaseImplement.Implements
             return context.Deliveries
             .Include(rec => rec.DeliveryComponents)
             .ThenInclude(rec => rec.Component)
-            .Where(rec => rec.DeliveryName.Contains(model.DeliveryName))
-            .ToList()
-            .Select(CreateModel)
-            .ToList();
+            .Where(rec => rec.OrderId == model.OrderId)
+             .Select(rec => new DeliveryViewModel
+             {
+                 Id = rec.Id,
+                 DeliveryName = rec.DeliveryName,
+                 DateCreate = rec.DateCreate,
+                 OrderName = context.Orders.FirstOrDefault(recOrder => rec.OrderId == recOrder.Id).OrderName,
+                 OrderId = rec.OrderId
+                 
+             }).ToList();
         }
         public DeliveryViewModel GetElement(DeliveryBindingModel model)
         {
@@ -43,54 +52,44 @@ namespace ComputerShopDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new ComputerShopDatabase();
-            var delivery = context.Deliveries
-            .Include(rec => rec.DeliveryComponents)
+            using (var context = new ComputerShopDatabase())
+            {
+                var delivery = context.Deliveries
+               .Include(rec => rec.DeliveryComponents)
             .ThenInclude(rec => rec.Component)
-            .FirstOrDefault(rec => rec.DeliveryName == model.DeliveryName || rec.Id == model.Id);
-            return delivery != null ? CreateModel(delivery) : null;
+                .FirstOrDefault(rec => rec.DeliveryName == model.DeliveryName || rec.Id == model.Id);
+                return delivery != null ?
+                new DeliveryViewModel
+                {
+                    Id = delivery.Id,
+                    DeliveryName = delivery.DeliveryName,
+                    DateCreate = delivery.DateCreate,
+                    OrderName = context.Orders.FirstOrDefault(recOrder => delivery.OrderId == recOrder.Id).OrderName,
+                    OrderId = delivery.OrderId,
+                  
+                } :
+                null;
+            }
         }
         public void Insert(DeliveryBindingModel model)
         {
-            using var context = new ComputerShopDatabase();
-            using var transaction = context.Database.BeginTransaction();
-            try
+            using (var context = new ComputerShopDatabase())
             {
-                Delivery delivery = new Delivery()
-                {
-                    DeliveryName = model.DeliveryName,
-                    
-                };
-                context.Deliveries.Add(delivery);
+                context.Deliveries.Add(CreateModel(model, new Delivery()));
                 context.SaveChanges();
-                CreateModel(model, delivery, context);
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
             }
         }
         public void Update(DeliveryBindingModel model)
         {
-            using var context = new ComputerShopDatabase();
-            using var transaction = context.Database.BeginTransaction();
-            try
+            using (var context = new ComputerShopDatabase())
             {
                 var element = context.Deliveries.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, element, context);
+                CreateModel(model, element);
                 context.SaveChanges();
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
             }
         }
         public void Delete(DeliveryBindingModel model)
@@ -107,48 +106,13 @@ namespace ComputerShopDatabaseImplement.Implements
                 throw new Exception("Элемент не найден");
             }
         }
-        private static Delivery CreateModel(DeliveryBindingModel model, Delivery delivery, ComputerShopDatabase context)
+
+        private Delivery CreateModel(DeliveryBindingModel model, Delivery delivery)
         {
             delivery.DeliveryName = model.DeliveryName;
-           
-            delivery.DateCreate = model.DateCreate;
-           
-            if (model.Id.HasValue)
-            {
-                var deliveryComponents = context.DeliveryComponents.Where(rec => rec.DeliveryId == model.Id.Value).ToList();
-
-                context.DeliveryComponents.RemoveRange(deliveryComponents.Where(rec => !model.DeliveryComponents.ContainsKey(rec.DeliveryId)).ToList());
-                context.SaveChanges();
-
-                foreach (var updateComponent in deliveryComponents)
-                {
-                    updateComponent.Count = model.DeliveryComponents[updateComponent.DeliveryId].Item2;
-                    model.DeliveryComponents.Remove(updateComponent.DeliveryId);
-                }
-                context.SaveChanges();
-            }
-
-            foreach (var fc in model.DeliveryComponents)
-            {
-                context.DeliveryComponents.Add(new DeliveryComponent
-                {
-                    DeliveryId = delivery.Id,
-                    ComponentId = fc.Key,
-                    Count = fc.Value.Item2
-                });
-                context.SaveChanges();
-            }
+            delivery.OrderId = model.OrderId;
+            delivery.DateCreate = DateTime.Now;
             return delivery;
-        }
-     
-        private static DeliveryViewModel CreateModel(Delivery delivery)
-        {
-            return new DeliveryViewModel
-            {
-                Id = delivery.Id,
-                DeliveryName = delivery.DeliveryName,
-                DateCreate = delivery.DateCreate
-            };
         }
     }
 }

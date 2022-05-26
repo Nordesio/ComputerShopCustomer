@@ -59,5 +59,9 @@ namespace ComputerShopBusinessLogic.BusinessLogic
             }
             _componentStorage.Delete(model);
         }
+        public void BindingDelivery(int componentId, int deliveryId)
+        {
+            _componentStorage.BindingDelivery(componentId, deliveryId);
+        }
     }
 }

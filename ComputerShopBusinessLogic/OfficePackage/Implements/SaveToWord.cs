@@ -6,7 +6,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace ComputerShopBusinessLogic.OfficePackage.Implements
 {
-    public class SaveToWordCustomer : AbstractSaveToWordCustomer
+    public class SaveToWord : AbstractSaveToWord
 	{
 		private WordprocessingDocument _wordDocument;
 		private Body _docBody;
@@ -62,7 +62,7 @@ namespace ComputerShopBusinessLogic.OfficePackage.Implements
 			}
 			return null;
 		}
-		protected override void CreateWord(WordInfoCustomer info)
+		protected override void CreateWord(WordInfo info)
 		{
 			_wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document);
 			MainDocumentPart mainPart = _wordDocument.AddMainDocumentPart();
@@ -96,7 +96,7 @@ namespace ComputerShopBusinessLogic.OfficePackage.Implements
 				_docBody.AppendChild(docParagraph);
 			}
 		}
-		protected override void SaveWord(WordInfoCustomer info)
+		protected override void SaveWord(WordInfo info)
 		{
 			_docBody.AppendChild(CreateSectionProperties());
 			_wordDocument.MainDocumentPart.Document.Save();

@@ -4,16 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComputerShopView"
-        mc:Ignorable="d"
-Title="Компьютерный магазин 'Ты ж программист'" Height="450" Width="500">
+         mc:Ignorable="d"
+Title="Компьютерный магазин 'Ты ж программист'" Height="450" Width="760">
     <Grid>
-        <Menu Grid.ColumnSpan="6">
-            <MenuItem x:Name="MenuItemOrder" Header="Заказы" Height="34" Width="86" Click="MenuItemOrder_Click"/>
+        <Menu Grid.Row ="0" Grid.ColumnSpan="6" Background="Cyan">
+            <MenuItem  x:Name="MenuItemOrder" Header="Заказы" Height="34" Width="86" Click="MenuItemOrder_Click"/>
             <MenuItem x:Name="MenuItemDelivery" Header="Поставки" Width="101" Click="MenuItemDelivery_Click"/>
             <MenuItem x:Name="MenuItemReceiving" Header="Получение техники" Height="58" Width="122" Click="MenuItemReceiving_Click"/>
-            <MenuItem x:Name="MenuItemList" Header="Получение списка" Height="62" Width="100" Click="MenuItemList_Click"/>
-            <MenuItem x:Name="MenuItemReport" Header="Отчёт" Height="62" Width="40" Click="MenuItemReport_Click"/>
+            <MenuItem x:Name="MenuItemComponent" Header="Привязка компонентов к поставкам" Height="62" Width="210" Click="MenuItemComponent_Click"/>
+            <MenuItem x:Name="MenuItemAssembly" Header="Привязка сборок к заказам" Height="62" Width="210" Click="MenuItemAssembly_Click"/>
         </Menu>
-
+        <Image Grid.Row="1" Source="image1.png" Width="500" Height="300" Stretch="Uniform"/>
     </Grid>
 </Window>

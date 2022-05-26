@@ -7,10 +7,10 @@ using ComputerShopContracts.BindingModel;
 using ComputerShopContracts.ViewModels;
 namespace ComputerShopBusinessLogic.OfficePackage.HelperModels
 {
-    public class ExcelInfoCustomer
+    public class ExcelInfo
     {
         public string FileName { get; set; }
         public string Title { get; set; }
-        public List<ReportCustomerOrderViewModel> CustomerOrder { get; set; }
+        public List<ReceivingViewModel> Receivings { get; set; }
     }
 }

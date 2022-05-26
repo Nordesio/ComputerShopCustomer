@@ -40,7 +40,7 @@ namespace ComputerShopView
                 if (viewCustomer != null && viewCustomer[0] != null && viewCustomer.Count > 0 && viewCustomer[0].Password == TextBoxPassword.Password)
                 {
                     var window = Container.Resolve<MainWindow>();
-                    window.CustomerLogin = viewCustomer[0].Login;
+                    window.Login = viewCustomer[0].Login;
                     window.ShowDialog();
                     DialogResult = true;
                 }

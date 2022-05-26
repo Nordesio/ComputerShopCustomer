@@ -49,6 +49,21 @@ namespace ComputerShopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Deliveries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DeliveryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Deliveries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -56,9 +71,7 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    CustomerLogin = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DateReceipt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CustomerLogin = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,54 +82,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                         principalTable: "Customers",
                         principalColumn: "CustomerLogin",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AssemblyOrders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AssemblyId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssemblyOrders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AssemblyOrders_Assemblies_AssemblyId",
-                        column: x => x.AssemblyId,
-                        principalTable: "Assemblies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssemblyOrders_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Deliveries",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DeliveryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Deliveries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Deliveries_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,8 +119,6 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DeliveryId = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateDispatch = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -169,6 +132,33 @@ namespace ComputerShopDatabaseImplement.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AssemblyOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssemblyId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssemblyOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AssemblyOrders_Assemblies_AssemblyId",
+                        column: x => x.AssemblyId,
+                        principalTable: "Assemblies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssemblyOrders_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AssemblyOrders_AssemblyId",
                 table: "AssemblyOrders",
@@ -177,11 +167,6 @@ namespace ComputerShopDatabaseImplement.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AssemblyOrders_OrderId",
                 table: "AssemblyOrders",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Deliveries_OrderId",
-                table: "Deliveries",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
@@ -220,13 +205,13 @@ namespace ComputerShopDatabaseImplement.Migrations
                 name: "Assemblies");
 
             migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
                 name: "Components");
 
             migrationBuilder.DropTable(
                 name: "Deliveries");
-
-            migrationBuilder.DropTable(
-                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Customers");

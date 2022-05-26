@@ -16,8 +16,14 @@ namespace ComputerShopDatabaseImplement.Implements
         {
             using var context = new ComputerShopDatabase();
             return context.Receivings
-            .Select(CreateModel)
-            .ToList();
+             .Select(rec => new ReceivingViewModel
+             {
+                 Id = rec.Id,
+                 Price = rec.Price,
+                 DeliveryName = context.Deliveries.FirstOrDefault(recOrder => rec.DeliveryId == recOrder.Id).DeliveryName,
+                 DeliveryId =rec.DeliveryId,
+                 DateDispatch = rec.DateDispatch,
+             }).ToList();
         }
         public List<ReceivingViewModel> GetFilteredList(ReceivingBindingModel model)
         {
@@ -27,9 +33,14 @@ namespace ComputerShopDatabaseImplement.Implements
             }
             using var context = new ComputerShopDatabase();
             return context.Receivings
-            .Where(rec => rec.Id.Equals(model.Id))
-            .Select(CreateModel)
-            .ToList();
+              .Select(rec => new ReceivingViewModel
+              {
+                  Id = rec.Id,
+                  Price = rec.Price,
+                  DeliveryName = context.Deliveries.FirstOrDefault(recOrder => rec.DeliveryId == recOrder.Id).DeliveryName,
+                  DeliveryId = rec.DeliveryId,
+                  DateDispatch = rec.DateDispatch,
+              }).ToList();
         }
         public ReceivingViewModel GetElement(ReceivingBindingModel model)
         {
@@ -40,24 +51,37 @@ namespace ComputerShopDatabaseImplement.Implements
             using var context = new ComputerShopDatabase();
             var receiving = context.Receivings
             .FirstOrDefault(rec => rec.Id == model.Id);
-            return receiving != null ? CreateModel(receiving) : null;
+            return receiving != null ?
+               new ReceivingViewModel
+               {
+                   Id = receiving.Id,
+                   Price = receiving.Price,
+                   DeliveryName = context.Deliveries.FirstOrDefault(recOrder => receiving.DeliveryId == recOrder.Id).DeliveryName,
+                   DeliveryId = receiving.DeliveryId,
+                   DateDispatch = receiving.DateDispatch
+               } :
+                null;
         }
         public void Insert(ReceivingBindingModel model)
         {
-            using var context = new ComputerShopDatabase();
-            context.Receivings.Add(CreateModel(model, new Receiving()));
-            context.SaveChanges();
+            using (var context = new ComputerShopDatabase())
+            {
+                context.Receivings.Add(CreateModel(model, new Receiving()));
+                context.SaveChanges();
+            }
         }
         public void Update(ReceivingBindingModel model)
         {
-            using var context = new ComputerShopDatabase();
-            var element = context.Receivings.FirstOrDefault(rec => rec.Id == model.Id);
-            if (element == null)
+            using (var context = new ComputerShopDatabase())
             {
-                throw new Exception("Элемент не найден");
+                var element = context.Receivings.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+                CreateModel(model, element);
+                context.SaveChanges();
             }
-            CreateModel(model, element);
-            context.SaveChanges();
         }
         public void Delete(ReceivingBindingModel model)
         {
@@ -74,27 +98,12 @@ namespace ComputerShopDatabaseImplement.Implements
                 throw new Exception("Элемент не найден");
             }
         }
-        private static Receiving CreateModel(ReceivingBindingModel model, Receiving
-       receiving)
+        private Receiving CreateModel(ReceivingBindingModel model, Receiving receiving)
         {
-            
             receiving.Price = model.Price;
-            receiving.Status = model.Status;
-            receiving.DateDispatch = model.DateDispatch;
-            receiving.DateCreate = model.DateCreate;
-
+            receiving.DateDispatch = DateTime.Now;
+            receiving.DeliveryId = model.DeliveryId;
             return receiving;
-        }
-        private static ReceivingViewModel CreateModel(Receiving receiving)
-        {
-            return new ReceivingViewModel
-            {
-                Id = receiving.Id,
-                Price = receiving.Price,
-                Status = Enum.GetName(receiving.Status),
-                DateCreate = receiving.DateCreate,
-                DateDispatch = receiving.DateDispatch
-            };
         }
     }
 }

@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace ComputerShopBusinessLogic.OfficePackage
 {
-    public abstract class AbstractSaveToWordCustomer
+    public abstract class AbstractSaveToWord
     {
         // Создание документа
-        public void CreateDoc(WordInfoCustomer info)
+        public void CreateDoc(WordInfo info)
         {
             CreateWord(info);
             CreateParagraph(new WordParagraph
@@ -20,14 +20,13 @@ namespace ComputerShopBusinessLogic.OfficePackage
                     JustificationType = WordJustificationType.Center
                 }
             });
-            foreach (var procedure in info.CustomerOrder)
+            foreach (var procedure in info.Receivings)
             {
                 CreateParagraph(new WordParagraph
                 {
-                    Texts = new List<(string, WordTextProperties)> { ("Клиент: " + procedure.CustomerName.ToString(), new WordTextProperties {Bold = true, Size = "24"}),
-                        ("Название заказа: " + procedure.OrderName, new WordTextProperties {Bold = false, Size = "24"}),
-                        ("дата создания: " + procedure.DateCreate.ToString(), new WordTextProperties {Bold = false, Size = "24"}),
-                        ("Стоимость " + procedure.Price.ToString(), new WordTextProperties {Bold = false, Size = "24"})},
+                    Texts = new List<(string, WordTextProperties)> { ("Поставка: " + procedure.DeliveryName.ToString(), new WordTextProperties {Bold = true, Size = "24"}),
+                        ("  Цена: " + procedure.Price, new WordTextProperties {Bold = false, Size = "24"}),
+                        ("  Дата отправки: " + procedure.DateDispatch.ToString(), new WordTextProperties {Bold = false, Size = "24"})},
                     TextProperties = new WordTextProperties
                     {
                         Size = "24",
@@ -39,12 +38,12 @@ namespace ComputerShopBusinessLogic.OfficePackage
         }
 
         // Создание doc-файла
-        protected abstract void CreateWord(WordInfoCustomer info);
+        protected abstract void CreateWord(WordInfo info);
 
         // Создание абзаца с текстом
         protected abstract void CreateParagraph(WordParagraph paragraph);
 
         // Сохранение файла
-        protected abstract void SaveWord(WordInfoCustomer info);
+        protected abstract void SaveWord(WordInfo info);
     }
 }

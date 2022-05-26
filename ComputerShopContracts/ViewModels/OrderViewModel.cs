@@ -14,11 +14,6 @@ namespace ComputerShopContracts.ViewModels
         [DisplayName("Цена")]
         public int Price { get; set; }
         public string CustomerLogin { get; set; }
-        [DisplayName("Дата получения")]
-        public DateTime DateReceipt { get; set; }
-        [DisplayName("Дата создания")]
-        public DateTime DateCreate { get; set; }
-        public Dictionary<int, int> AssemblyOrders { get; set; }
       
     }
 }
